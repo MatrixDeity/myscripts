@@ -17,11 +17,12 @@ function show_help {
 vsync - script to synchronize remote files with local ones.
 
 Usage:
-    vsync [-o <target>] [-r] [<source>]
+    vsync [-o <target>] [-t <host>] [-r] [<source>]
     vsync -h
 
 Options:
     -o <target>    Custom target directory for forwarded files. Default: same as <source>.
+    -t <host>      Custom host to connect. Default: host from ${VHOST_CONF}.
     -r             Reverse mode: synchronize local files with remote ones.
     -h             Show this help.
 
@@ -34,8 +35,8 @@ EOF
 function make_rsync_params {
     local params="--delete --links"
     local excludes="$(cat ${EXCLUDES_CONF})"
-    for exclude in "${excludes}"; do
-        params="${params} --exclude="${exclude}""
+    for exclude in ${excludes/\*/\\\*}; do
+        params="${params} --exclude=${exclude/\\\*/\*}"
     done
     echo "${params}"
 }
@@ -43,14 +44,13 @@ function make_rsync_params {
 function main {
     local vhost=$(cat ${VHOST_CONF})
 
-    if [[ -z "${vhost}" ]]; then
-        fatal "Write hostname to '${VHOST_CONF}' config"
-    fi
-
-    while getopts ":o:rh" OPT; do
+    while getopts ":o:t:rh" OPT; do
         case $OPT in
             o)
                 local custom_target=${OPTARG}
+                ;;
+            t)
+                vhost=${OPTARG}
                 ;;
             r)
                 local reverse_mode=1
@@ -66,6 +66,10 @@ function main {
         esac
     done
     shift $(($OPTIND - 1))
+
+    if [[ -z "${vhost}" ]]; then
+        fatal "Pass '-t <host>' or write hostname to '${VHOST_CONF}' config"
+    fi
 
     local source=$(readlink -f ${1:-.})
     local target=${custom_target:-$(dirname ${source})}

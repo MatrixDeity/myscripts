@@ -16,11 +16,12 @@ function show_help {
 vvisit - script to connect to remote host.
 
 Usage:
-    vvisit [<command>]
+    vvisit [-t <host>] [<command>]
     vvisit -h
 
 Options:
-    -h    Show this help.
+    -t <host>    Custom host to connect. Default: host from ${VHOST_CONF}.
+    -h           Show this help.
 
 Configs:
     ${VHOST_CONF}
@@ -30,12 +31,11 @@ EOF
 function main {
     local vhost=$(cat ${VHOST_CONF})
 
-    if [[ -z "${vhost}" ]]; then
-        fatal "Write hostname to '${VHOST_CONF}' config"
-    fi
-
-    while getopts ":h" OPT; do
+    while getopts ":t:h" OPT; do
         case "${OPT}" in
+            t)
+                vhost=${OPTARG}
+                ;;
             h)
                 show_help
                 exit 0
@@ -47,6 +47,10 @@ function main {
         esac
     done
     shift $(( OPTIND - 1 ))
+
+    if [[ -z "${vhost}" ]]; then
+        fatal "Pass '-t <host>' or write hostname to '${VHOST_CONF}' config"
+    fi
 
     ssh -A "${vhost}" "${@}"
 }
