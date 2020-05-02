@@ -22,7 +22,11 @@ This command will make the following copies:
 * `./scripts` -> `~/.myscripts`
 * `./configs` -> `~/.config/myscripts`
 
-It will also add necessary aliases to your `~/.bash_aliases` for quick access to scripts.
+It will also add necessary aliases to your `~/.bash_aliases` for quick access to scripts. They will be available in new bash sessions or in the current session after running:
+
+```bash
+source ~/.bash_aliases
+```
 
 ## Uninstall
 
