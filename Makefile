@@ -1,12 +1,14 @@
-ALIASES_FILE=$(HOME)/.bash_aliases
-SOURCE_DIR=$(PWD)
-TARGET_CONFIGS_DIR=$(HOME)/.config/myscripts
-TARGET_SCRIPTS_DIR=$(HOME)/.myscripts
+SHELL ?= bash
 
-MYSCRIPTS_BEGIN=\# myscripts section begin
-MYSCRIPTS_LINE=source $(TARGET_SCRIPTS_DIR)/myscripts.sh
-MYSCRIPTS_END=\# myscripts section end
-MYSCRIPTS_ALL=$(MYSCRIPTS_BEGIN)\n$(MYSCRIPTS_LINE)\n$(MYSCRIPTS_END)
+ALIASES_FILE = $(HOME)/.bash_aliases
+SOURCE_DIR = $(PWD)
+TARGET_CONFIGS_DIR = $(HOME)/.config/myscripts
+TARGET_SCRIPTS_DIR = $(HOME)/.myscripts
+
+MYSCRIPTS_BEGIN = \# myscripts section begin
+MYSCRIPTS_LINE = source $(TARGET_SCRIPTS_DIR)/myscripts.sh
+MYSCRIPTS_END = \# myscripts section end
+MYSCRIPTS_ALL = $(MYSCRIPTS_BEGIN)\n$(MYSCRIPTS_LINE)\n$(MYSCRIPTS_END)
 
 .PHONY: all
 all: install
@@ -21,7 +23,7 @@ install:
 	@mkdir -p $(TARGET_CONFIGS_DIR);
 	@cp -rn $(SOURCE_DIR)/configs/* $(TARGET_CONFIGS_DIR);
 	@echo "  Add myscripts aliases to $(ALIASES_FILE)";
-	@grep -q "$(MYSCRIPTS_BEGIN)" $(ALIASES_FILE) 2>/dev/null || echo "$(MYSCRIPTS_ALL)" >> $(ALIASES_FILE);
+	@grep -q "$(MYSCRIPTS_BEGIN)" $(ALIASES_FILE) 2>/dev/null || echo -e "$(MYSCRIPTS_ALL)" >> $(ALIASES_FILE);
 	@echo "DONE";
 
 .PHONY: uninstall
