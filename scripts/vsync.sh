@@ -35,8 +35,8 @@ EOF
 function make_rsync_params {
     local params="--delete --links"
     local excludes="$(cat ${EXCLUDES_CONF})"
-    for exclude in ${excludes/\*/\\\*}; do
-        params="${params} --exclude=${exclude/\\\*/\*}"
+    for exclude in ${excludes//\*/\\\*}; do
+        params="${params} --exclude=${exclude//\\\*/\*}"
     done
     echo "${params}"
 }
