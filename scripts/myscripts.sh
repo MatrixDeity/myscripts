@@ -4,7 +4,7 @@ MYSCRIPTS_DIR=$(dirname "${BASH_SOURCE[0]}")
 
 alias fetchpr="${MYSCRIPTS_DIR}/fetchpr.sh"
 alias gitlog="git log --pretty=oneline"
-alias gitrmb="git checkout develop && git branch | egrep -v 'develop|master' | xargs git branch -D"
+alias gitrmb="git checkout develop && git branch | egrep -v 'develop|master' | xargs -r git branch -D"
 alias gitsub="git submodule update --init --recursive"
 alias rmpyc="find . -name '*.pyc' -delete"
 alias tmp="cd $(mktemp -d)"
