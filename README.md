@@ -1,11 +1,14 @@
 # MyScripts collection
 
-A collection of scripts that facilitate some of everyday tasks of a Linux developer. Primarily it intended for use by the author himself.
+The collection of scripts that facilitate some of everyday tasks of a Linux developer. Primarily it intended for use by the author himself.
 
 Working capacity tested on platforms:
 
 * Ubuntu 16.04
 * Ubuntu 18.04
+
+To see the actual information about Make commands run `make help`.
+To see the actual information about some script run `<script-name> -h`.
 
 Written by MatrixDeity, 2020.
 
@@ -17,7 +20,7 @@ To install myscripts on your system, run:
 make install
 ```
 
-This command will make the following copies:
+Being executed a second time the command will rewrite scripts but not existed configs. This command will make the following copies:
 
 * `./scripts` -> `~/.myscripts`
 * `./configs` -> `~/.config/myscripts`

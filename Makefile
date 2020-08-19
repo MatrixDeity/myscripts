@@ -10,32 +10,45 @@ MYSCRIPTS_LINE = source $(TARGET_SCRIPTS_DIR)/myscripts.sh
 MYSCRIPTS_END = \# myscripts section end
 MYSCRIPTS_ALL = $(MYSCRIPTS_BEGIN)\n$(MYSCRIPTS_LINE)\n$(MYSCRIPTS_END)
 
+.PHONY: help
+help:
+	@echo -e "Available \e[33mmake\e[00m commands:\n"
+	@echo -e "  \e[33mmake\e[00m            - the same as \e[33mmake install\e[00m."
+	@echo -e "  \e[33mmake install\e[00m    - install scripts and configs on your system"
+	@echo -e "                    (being executed a second time the command will"
+	@echo -e "                    rewrite scripts but not existed configs)."
+	@echo -e "  \e[33mmake uninstall\e[00m  - uninstall scripts and configs from your system."
+	@echo -e "  \e[33mmake reinstall\e[00m  - alias for \e[33mmake uninstall install\e[00m (fully "
+	@echo -e "                    rewrite scripts and configs)."
+	@echo -e "  \e[33mmake help\e[00m       - show this help."
+	@echo -e "\nSee README.md for additional information."
+
 .PHONY: all
 all: install
 
 .PHONY: install
 install:
-	@echo "Install myscripts..."
-	@echo "  Install scripts to $(TARGET_SCRIPTS_DIR)"
+	@echo -e "Install myscripts...\n"
+	@echo -e "  Install scripts to \e[33m$(TARGET_SCRIPTS_DIR)\e[00m"
 	@mkdir -p $(TARGET_SCRIPTS_DIR)
 	@cp -r $(SOURCE_DIR)/scripts/* $(TARGET_SCRIPTS_DIR)
-	@echo "  Update configs in $(TARGET_CONFIGS_DIR)"
+	@echo -e "  Update configs in \e[33m$(TARGET_CONFIGS_DIR)\e[00m"
 	@mkdir -p $(TARGET_CONFIGS_DIR)
 	@cp -rn $(SOURCE_DIR)/configs/* $(TARGET_CONFIGS_DIR)
-	@echo "  Add myscripts aliases to $(ALIASES_FILE)"
+	@echo -e "  Add myscripts aliases to \e[33m$(ALIASES_FILE)\e[00m"
 	@grep -q "$(MYSCRIPTS_BEGIN)" $(ALIASES_FILE) 2>/dev/null || echo -e "$(MYSCRIPTS_ALL)" >> $(ALIASES_FILE)
-	@echo "DONE"
+	@echo -e "\n\e[32mDONE\e[00m"
 
 .PHONY: uninstall
 uninstall:
-	@echo "Uninstall myscripts..."
-	@echo "  Remove $(TARGET_SCRIPTS_DIR)"
+	@echo -e "Uninstall myscripts...\n"
+	@echo -e "  Remove \e[33m$(TARGET_SCRIPTS_DIR)\e[00m"
 	@rm -rf $(TARGET_SCRIPTS_DIR)
-	@echo "  Remove $(TARGET_CONFIGS_DIR)"
+	@echo -e "  Remove \e[33m$(TARGET_CONFIGS_DIR)\e[00m"
 	@rm -rf $(TARGET_CONFIGS_DIR)
-	@echo "  Remove myscripts aliases from $(ALIASES_FILE)"
+	@echo -e "  Remove myscripts aliases from \e[33m$(ALIASES_FILE)\e[00m"
 	@sed -i '/$(MYSCRIPTS_BEGIN)/,/$(MYSCRIPTS_END)/d' $(ALIASES_FILE)
-	@echo "DONE"
+	@echo -e "\n\e[32mDONE\e[00m"
 
 .PHONY: reinstall
 reinstall: uninstall install
