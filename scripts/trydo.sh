@@ -36,7 +36,7 @@ function trydo_impl {
     local n_successes=0
     for (( itr=1; itr <= n_iterations; ++itr )); do
         echo "--- Step ${itr} ---"
-        if eval "${instruction}"; then
+        if bash -c "${instruction}"; then
             n_successes=$(( n_successes + 1 ))
             echo -e "--- SUCCESS ---\n\n"
         else
