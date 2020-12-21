@@ -4,7 +4,7 @@ set -e
 REMOTE=upstream
 
 function fatal {
-    local message=${1}
+    local message=${@}
     if [[ -n "${message}" ]]; then
         echo -e "\e[31mFATAL\e[0m: ${message}" >&2
     fi

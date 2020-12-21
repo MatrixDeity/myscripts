@@ -5,7 +5,7 @@ EXCLUDES_CONF=${HOME}/.config/myscripts/vsync_excludes.conf
 VHOST_CONF=${HOME}/.config/myscripts/vhost.conf
 
 function fatal {
-    local message=${1}
+    local message=${@}
     if [[ -n "${message}" ]]; then
         echo -e "\e[31mFATAL\e[0m: ${message}" >&2
     fi
