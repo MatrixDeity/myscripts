@@ -1,7 +1,6 @@
 SHELL = bash
 
 ALIASES_FILE = $(HOME)/.bash_aliases
-SOURCE_DIR = $(PWD)
 TARGET_CONFIGS_DIR = $(HOME)/.config/myscripts
 TARGET_SCRIPTS_DIR = $(HOME)/.myscripts
 
@@ -31,10 +30,10 @@ install:
 	@echo -e "Install myscripts...\n"
 	@echo -e "  Install scripts to \e[33m$(TARGET_SCRIPTS_DIR)\e[00m"
 	@mkdir -p $(TARGET_SCRIPTS_DIR)
-	@cp -r $(SOURCE_DIR)/scripts/* $(TARGET_SCRIPTS_DIR)
+	@cp -r $(CURDIR)/scripts/* $(TARGET_SCRIPTS_DIR)
 	@echo -e "  Update configs in \e[33m$(TARGET_CONFIGS_DIR)\e[00m"
 	@mkdir -p $(TARGET_CONFIGS_DIR)
-	@cp -rn $(SOURCE_DIR)/configs/* $(TARGET_CONFIGS_DIR)
+	@cp -rn $(CURDIR)/configs/* $(TARGET_CONFIGS_DIR)
 	@echo -e "  Add myscripts aliases to \e[33m$(ALIASES_FILE)\e[00m"
 	@grep -q "$(MYSCRIPTS_BEGIN)" $(ALIASES_FILE) 2>/dev/null || echo -e "$(MYSCRIPTS_ALL)" >> $(ALIASES_FILE)
 	@echo -e "\n\e[32mDONE\e[00m"
