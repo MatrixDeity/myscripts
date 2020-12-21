@@ -20,6 +20,10 @@ function process_path {
     local path=${1}
     local mode=${2}
 
+    if [[ "${path}" == -* ]]; then
+        return 1
+    fi
+
     if [[ "${mode}" == "file" ]]; then
         mkdir -p $(dirname ${path})
         touch ${path}
@@ -51,7 +55,10 @@ function main {
                 ;;
             -h)
                 show_help
-                exit 0
+                if [[ "${mode}" == "none" ]]; then
+                    exit 0
+                fi
+                exit 1
                 ;;
             *)
                 if ! process_path "${arg}" "${mode}"; then
