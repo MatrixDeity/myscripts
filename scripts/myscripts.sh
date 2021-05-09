@@ -17,3 +17,5 @@ alias vvisit="${MYSCRIPTS_DIR}/vvisit.sh"
 function gitdrop { git clean -fd && git reset --hard HEAD~${1:-0} && git submodule update --init --recursive --force; }
 function lg { ls -la "${2:-.}" | grep --color=no "${1}"; }
 function mkcd { mkdir -p ${1} && cd ${1}; }
+
+PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\w\[\033[33m\]$(__git_ps1)\[\033[00m\]\n\$ '
