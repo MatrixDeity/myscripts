@@ -1,3 +1,4 @@
+.DEFAULT_GOAL = help
 SHELL = bash
 
 ALIASES_FILE = $(HOME)/.bash_aliases
@@ -12,7 +13,7 @@ MYSCRIPTS_ALL = $(MYSCRIPTS_BEGIN)\n$(MYSCRIPTS_LINE)\n$(MYSCRIPTS_END)
 .PHONY: help
 help:
 	@echo -e "Available \e[33mmake\e[00m commands:\n"
-	@echo -e "  \e[33mmake\e[00m            - the same as \e[33mmake install\e[00m."
+	@echo -e "  \e[33mmake\e[00m            - the same as \e[33mmake help\e[00m."
 	@echo -e "  \e[33mmake install\e[00m    - install scripts and configs on your system"
 	@echo -e "                    (being executed a second time the command will"
 	@echo -e "                    rewrite scripts but not existed configs)."
@@ -21,9 +22,6 @@ help:
 	@echo -e "                    rewrite scripts and configs)."
 	@echo -e "  \e[33mmake help\e[00m       - show this help."
 	@echo -e "\nSee README.md for additional information."
-
-.PHONY: all
-all: install
 
 .PHONY: install
 install:
