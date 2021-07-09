@@ -49,6 +49,15 @@ function check_service_passed {
     fi
 }
 
+function ensure_dockerd {
+    if docker info &>/dev/null; then
+        return
+    fi
+    status "Docker daemon is not running. Try to run..."
+    sudo service docker start
+    status "Docker daemon is running now"
+}
+
 function login {
     local username=${1}
     docker login -u ${username}
@@ -81,6 +90,8 @@ function main {
 
     local username=$(cat ${USERNAME_CONF})
     local env_list=$(cat ${ENV_LIST_CONF})
+
+    ensure_dockerd
 
     case ${command} in
         login)
