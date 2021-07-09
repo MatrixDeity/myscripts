@@ -2,6 +2,7 @@
 
 MYSCRIPTS_DIR=$(dirname "${BASH_SOURCE[0]}")
 
+alias doxer="${MYSCRIPTS_DIR}/doxer.sh"
 alias fetchpr="${MYSCRIPTS_DIR}/fetchpr.sh"
 alias gitlog="git log --pretty=oneline"
 alias gitrmb="git checkout develop && git branch | egrep -v 'develop|master' | xargs -r git branch -D"
