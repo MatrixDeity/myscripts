@@ -76,7 +76,7 @@ function pull {
 function start {
     local service=${1}
     local username=${2}
-    docker run --detach --rm --name ${service} --env-file ${ENV_LIST_CONF} ${username}/${service}:latest
+    docker run --detach --rm --name ${service} --env-file ${ENV_LIST_CONF} --restart unless-stopped ${username}/${service}:latest
 }
 
 function stop {
