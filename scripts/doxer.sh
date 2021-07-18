@@ -29,6 +29,7 @@ Usage:
 Commands:
     clean        Remove artifacts of docker.
     login        Login to DockerHub as user from ${USERNAME_CONF}.
+    logs         Print logs of service to stdout.
     ps           List all docker containers.
     pull         Pull image of passed service.
     start        Run service.
@@ -61,11 +62,11 @@ function ensure_dockerd {
 
 function login {
     local username=${1}
-    docker login -u ${username}
+    docker login --username ${username}
 }
 
 function ps {
-    docker ps -a
+    docker ps --all
 }
 
 function pull {
@@ -77,7 +78,7 @@ function pull {
 function start {
     local service=${1}
     local username=${2}
-    docker run --detach --rm --name ${service} --env-file ${ENV_LIST_CONF} --restart unless-stopped ${username}/${service}:latest
+    docker run --detach --name ${service} --env-file ${ENV_LIST_CONF} --restart unless-stopped ${username}/${service}:latest
 }
 
 function stop {
@@ -87,6 +88,20 @@ function stop {
 
 function clean {
     docker system prune
+}
+
+function rm_old_container {
+    local service=${1}
+    local stopped_container=$(docker ps --quiet --all --filter "status=exited" --filter "name=${service}")
+    if [[ -n "${stopped_container}" ]]; then
+        status "Remove old container before running new one..."
+        docker rm --force ${service}
+    fi
+}
+
+function logs {
+    local service=${1}
+    docker logs ${service}
 }
 
 function main {
@@ -101,11 +116,14 @@ function main {
     case ${command} in
         clean)
             clean
-            status "Cleaning is succeeded"
             ;;
         login)
             login ${username}
             status "Login to DockerHub succeeded"
+            ;;
+        logs)
+            check_service_passed ${service}
+            logs ${service}
             ;;
         ps)
             ps
@@ -117,8 +135,9 @@ function main {
             ;;
         start)
             check_service_passed ${service}
+            rm_old_container ${service}
             start ${service} ${username}
-            status "Service '${service}' is running"
+            status "Service '${service}' is running now"
             ;;
         stop)
             check_service_passed ${service}
