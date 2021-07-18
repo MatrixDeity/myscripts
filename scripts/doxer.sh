@@ -22,11 +22,12 @@ function show_help {
 doxer - wrapper of popular docker commands for services deploy.
 
 Usage:
-    doxer (login|ps)
+    doxer (clean|login|ps)
     doxer (pull|start|stop) <service>
     doxer -h
 
 Commands:
+    clean        Remove artifacts of docker.
     login        Login to DockerHub as user from ${USERNAME_CONF}.
     ps           List all docker containers.
     pull         Pull image of passed service.
@@ -84,6 +85,10 @@ function stop {
     docker stop ${service}
 }
 
+function clean {
+    docker system prune
+}
+
 function main {
     local command=${1}
     local service=${2}
@@ -94,6 +99,10 @@ function main {
     ensure_dockerd
 
     case ${command} in
+        clean)
+            clean
+            status "Cleaning is succeeded"
+            ;;
         login)
             login ${username}
             status "Login to DockerHub succeeded"
