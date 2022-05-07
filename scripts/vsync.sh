@@ -75,9 +75,9 @@ function main {
     local target=${custom_target:-$(dirname ${source})}
 
     if [[ -z "${reverse_mode}" ]]; then
-        local uris="${source} ${USER}@[${vhost}]:${target}"
+        local uris="${source} ${vhost}:${target}"
     else
-        local uris="${USER}@[${vhost}]:${source} ${target}"
+        local uris="${vhost}:${source} ${target}"
     fi
 
     local params=$(make_rsync_params)
